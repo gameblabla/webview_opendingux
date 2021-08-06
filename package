@@ -1,0 +1,47 @@
+#!/bin/sh
+
+mkdir -p opk
+cp -r bin opk/
+cp -r lib opk/
+cp webview.elf opk/
+cp run.sh opk/
+cp linuxfb.sh opk/
+cp icon.png opk/icon.png
+# https://unix.stackexchange.com/questions/219268/how-to-add-new-lines-when-using-echo
+print()
+	case    ${IFS- } in
+	(\ *)   printf  %b\\n "$*";;
+	(*)     IFS=\ $IFS
+	printf  %b\\n "$*"
+	IFS=${IFS#?}
+esac
+
+# Create GmenuNx entry file plus other things
+
+print '[Desktop Entry]
+Type=Application
+Name=Webplay (eglfs)
+Comment=Play HTML5 games
+Exec=run.sh %f
+Icon=icon
+Terminal=false
+Type=Application
+Categories=games;
+MimeType=text/html;
+X-OD-NeedsDownscaling=true' > opk/default."$1".desktop
+
+print '[Desktop Entry]
+Type=Application
+Name=Webplay (linuxfb)
+Comment=Play HTML5 games
+Exec=linuxfb.sh %f
+Icon=icon
+Terminal=false
+Type=Application
+Categories=games;
+MimeType=text/html;
+X-OD-NeedsDownscaling=true' > opk/linuxfb."$1".desktop
+
+mksquashfs ./opk webplay_"$1".opk -all-root -noappend -no-exports -no-xattrs
+
+rm -r opk

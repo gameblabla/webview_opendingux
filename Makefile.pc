@@ -1,0 +1,18 @@
+CXX = g++
+
+CXXFLAGS = -Wall -Wextra -O2 -fPIC
+CXXFLAGS += -I/usr/include/qt5 -I/usr/include/qt5/QtCore -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui
+CXXFLAGS += -I/usr/include/qt5/QtWebKitWidgets -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui
+
+LDFLAGS = -lc -lgcc -lm -lQt5Core -lQt5Gui -lQt5Widgets -lQt5WebKit -lQt5WebKitWidgets -pthread
+OUTPUT = webview_pc.elf
+
+SOURCES = main.cpp moc_main.cpp
+OBJS = ${SOURCES:.cpp=.o}
+
+${OUTPUT}:${OBJS}
+	${CXX} ${CXXFLAGS} -o ${OUTPUT} ${SOURCES} ${LDFLAGS}
+	
+clean:
+	rm *.o
+	rm ${OUTPUT}

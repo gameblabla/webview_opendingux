@@ -1,0 +1,19 @@
+CXX = /opt/gcw0-toolchain/bin/mipsel-linux-g++
+
+CXXFLAGS = -Wall -Wextra -Ofast -flto -mips32r2
+CXXFLAGS += -I/opt/gcw0-toolchain/mipsel-gcw0-linux-uclibc/sysroot/usr/include/QtCore -I/opt/gcw0-toolchain/mipsel-gcw0-linux-uclibc/sysroot/usr/include/QtWidgets -I/opt/gcw0-toolchain/mipsel-gcw0-linux-uclibc/sysroot/usr/include/QtGui
+CXXFLAGS += -I/opt/gcw0-toolchain/mipsel-gcw0-linux-uclibc/sysroot/usr/include/QtWebKitWidgets
+
+LDFLAGS = -lc -lgcc -lm -lQt5Core -lQt5Gui -lQt5Widgets -lQt5WebKit -lQt5WebKitWidgets -lintl -pthread -Wl,--as-needed -flto -s
+#LDFLAGS += -L/opt/gcw0-toolchain/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/gstreamer-1.0 -lgstreamer-1.0 -lgstbase-1.0 -lgstreamer-1.0 -lgstogg -lgsttcp -lgstapp-1.0 -lgstpbutils-1.0 -lgstaudio-1.0 -lgstvideo-1.0 -lgstfft-1.0 -Wl,--end-group
+OUTPUT = webview.elf
+
+SOURCES = main.cpp moc_main.cpp
+OBJS = ${SOURCES:.cpp=.o}
+
+${OUTPUT}:${OBJS}
+	${CXX} ${CXXFLAGS} -o ${OUTPUT} ${SOURCES} ${LDFLAGS}
+	
+clean:
+	rm *.o
+	rm ${OUTPUT}

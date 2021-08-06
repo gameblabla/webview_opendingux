@@ -1,0 +1,6 @@
+*.html
+biolab/
+*.opk
+*.a
+*.elf
+*.o
